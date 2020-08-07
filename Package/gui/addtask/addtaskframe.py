@@ -9,9 +9,9 @@ class AddTaskFrame(tk.LabelFrame):
         super().__init__(root, padx=10)
         self.manager = manager
 
-        self.day_var = tk.StringVar(value='Day')
-        self.month_var = tk.StringVar(value='Month')
-        self.year_var = tk.StringVar(value='Year')
+        self.day_var = tk.IntVar()
+        self.month_var = tk.IntVar()
+        self.year_var = tk.IntVar()
         self.deadline_var = tk.BooleanVar(value=True)
         self.deadline_frame = DeadlineFrame(self, self.day_var, self.month_var,
                                             self.year_var, self.deadline_var)
@@ -38,8 +38,8 @@ class AddTaskFrame(tk.LabelFrame):
         year = self.year_var.get()
         task = self.task_frame.task.get(1.0, 'end').strip()
         try:
-            if day.isdigit() and month.isdigit() and year.isdigit() and self.deadline_var.get():
-                self.manager.new_task(int(day), int(month), int(year), task)
+            if day != None and self.deadline_var.get():
+                self.manager.new_task(day, month, year, task)
             else:
                 self.manager.new_task(task=task)
         except Exception as e:
@@ -49,10 +49,10 @@ class AddTaskFrame(tk.LabelFrame):
             # self.destroy()
             pass
 
-        self.task_frame.task.delete(1.0, 'end')
-        self.day_var.set("Day")
-        self.month_var.set("Month")
-        self.year_var.set("Year")
+        # self.task_frame.task.delete(1.0, 'end')
+        # self.day_var.set("Day")
+        # self.month_var.set("Month")
+        # self.year_var.set("Year")
 
         label = tk.Label(self.print_frame, text=str(self.manager.tasks[-1]))
         label.pack()
