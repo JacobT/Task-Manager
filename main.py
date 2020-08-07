@@ -1,14 +1,12 @@
 from tkinter import *
 from Package.taskmanager.taskmanager import TaskManager
-from Package.gui.addtaskframe import AddTaskFrame
+from Package.gui.addtask.addtaskframe import AddTaskFrame
 
 # def add():
 #     global root
 #     global manager
-#     try:
-#         frame = FrameAddTask(root, manager)
-#     finally:
-#         del frame
+#     frame = FrameAddTask(root, manager)
+
 
 root = Tk()
 root.title('Task Manager')
