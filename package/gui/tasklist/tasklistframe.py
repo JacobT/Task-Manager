@@ -13,7 +13,7 @@ class TaskListFrame(tk.LabelFrame):
         if len(self.manager.tasks) >= 1:
             for task in self.manager.tasks:
                 task_frame = tk.Frame(self)
-                self.tasks.append(task_frame)
+                self.tasks.append(task)
                 task_frame.pack()
         else:
             label = tk.Label(self, text="No tasks yet.")

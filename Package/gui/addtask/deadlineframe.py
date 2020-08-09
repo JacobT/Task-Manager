@@ -4,16 +4,15 @@ import datetime
 
 class DeadlineFrame(tk.Frame):
 
-    def __init__(self, parent, day_var, month_var, year_var, deadline_var):
+    def __init__(self, parent):
         super().__init__(parent)
 
-        self.day_var = day_var
-        self.day_var.trace("w", lambda *args: self.day.config(bg="white"))
-        self.month_var = month_var
+        self.day_var = tk.IntVar()
+        self.month_var = tk.IntVar()
         self.month_var.trace("w", self._date_check)
-        self.year_var = year_var
+        self.year_var = tk.IntVar()
         self.year_var.trace("w", self._date_check)
-        self.deadline_var = deadline_var
+        self.deadline_var = tk.BooleanVar(value=True)
 
         deadline = tk.Checkbutton(self, text='Deadline',
                                   variable=self.deadline_var, command=self._dl_check)
@@ -26,19 +25,24 @@ class DeadlineFrame(tk.Frame):
         self.day_var.set(today.day)
         days = [i for i in range(1, 32)]
         self.day = tk.OptionMenu(self.date_frame, self.day_var, *days)
-        self.day.grid(row=1, column=1)
+        self.day.grid(row=1, column=1, sticky="WE")
+        self.day_var.trace("w", lambda *args: self.day.config(bg=self.cget("bg")))
 
         self.month_var.set(today.month)
         months = [i for i in range(1, 13)]
         self.month = tk.OptionMenu(self.date_frame, self.month_var, *months)
-        self.month.grid(row=1, column=2)
+        self.month.grid(row=1, column=2, sticky="WE")
 
         self.year_var.set(today.year)
         years = [i for i in range(today.year, today.year + 10)]
         self.year = tk.OptionMenu(self.date_frame, self.year_var, *years)
-        self.year.grid(row=1, column=3)
+        self.year.grid(row=1, column=3, sticky="WE")
 
-        self.date_frame.pack(expand=True)
+        self.date_frame.grid_columnconfigure(1, minsize=60)
+        self.date_frame.grid_columnconfigure(2, minsize=60)
+        self.date_frame.grid_columnconfigure(3, minsize=70)
+
+        self.date_frame.pack()
 
     def _dl_check(self):
         if self.deadline_var.get():

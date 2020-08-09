@@ -9,23 +9,23 @@ class AddTaskFrame(tk.LabelFrame):
         super().__init__(root, padx=10)
         self.manager = manager
 
-        self.day_var = tk.IntVar()
-        self.month_var = tk.IntVar()
-        self.year_var = tk.IntVar()
-        self.deadline_var = tk.BooleanVar(value=True)
-        self.deadline_frame = DeadlineFrame(self, self.day_var, self.month_var,
-                                            self.year_var, self.deadline_var)
-        self.deadline_frame.grid(row=2, column=1, sticky="nswe")
+        self.deadline_frame = DeadlineFrame(self)
+        self.deadline_frame.grid(row=1, column=1, sticky="nswe")
 
         self.task_frame = TaskFrame(self)
-        self.task_frame.grid(row=1, column=2, padx=10, pady=5, rowspan=2)
+        self.task_frame.grid(row=1, column=2, padx=10, pady=5, rowspan=2, sticky="nswe")
 
         self.add_task_button = tk.Button(self, text='Add Task',
                                          command=self.click)
-        self.add_task_button.grid(row=1, column=3, rowspan=2)
+        self.add_task_button.grid(row=1, column=3, pady=5, sticky="n")
 
         self.print_frame = tk.Frame(self)
         self.print_frame.grid(row=3, column=1, columnspan=3)
+
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(4, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(4, weight=1)
 
         self.pack(padx=5, pady=5, expand=True, fill="both")
 
@@ -33,12 +33,12 @@ class AddTaskFrame(tk.LabelFrame):
         for slave in self.print_frame.pack_slaves():
             slave.destroy()
 
-        day = self.day_var.get()
-        month = self.month_var.get()
-        year = self.year_var.get()
+        day = self.deadline_frame.day_var.get()
+        month = self.deadline_frame.month_var.get()
+        year = self.deadline_frame.year_var.get()
         task = self.task_frame.task.get(1.0, 'end').strip()
         try:
-            if day != None and self.deadline_var.get():
+            if day != None and self.deadline_frame.deadline_var.get():
                 self.manager.new_task(day, month, year, task)
             else:
                 self.manager.new_task(task=task)
@@ -48,11 +48,6 @@ class AddTaskFrame(tk.LabelFrame):
         finally:
             # self.destroy()
             pass
-
-        # self.task_frame.task.delete(1.0, 'end')
-        # self.day_var.set("Day")
-        # self.month_var.set("Month")
-        # self.year_var.set("Year")
 
         label = tk.Label(self.print_frame, text=str(self.manager.tasks[-1]))
         label.pack()
