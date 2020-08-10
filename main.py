@@ -16,11 +16,9 @@ manager = TaskManager()
 # add_task_button = tk.Button(root, text='Add Task', command=add)
 # add_task_button.pack()
 
+manager.new_task(11, 11, 2020, task="Neco")
+manager.new_task(1, 2, 2022, task="Neco")
 manager.new_task(task="Neco")
-manager.new_task(task="Neco")
-manager.new_task(task="Neco")
-
-print(manager.print())
 
 menu = AddTaskFrame(root, manager)
 task_list = TaskListFrame(root, manager)

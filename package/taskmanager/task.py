@@ -11,10 +11,10 @@ class Task:
 
     @property
     def created(self):
-        return self._created
+        return self._created.strftime('%d.%m.%Y')
 
     @created.setter
-    def created(self, creation_date):
+    def created(self, creation_date: datetime.date):
         if not hasattr(self, '_created'):
             self._created = creation_date
         else:
@@ -22,18 +22,19 @@ class Task:
 
     @property
     def modified(self):
-        return self._modified
+        return self._modified.strftime('%d.%m.%Y %H:%M')
 
     def _modify(self):
         self._modified = datetime.datetime.now()
 
     @property
     def deadline(self):
-        return self._deadline
+        if self._deadline:
+            return self._deadline.strftime('%d.%m.%Y')
 
     @deadline.setter
     def deadline(self, new_deadline: datetime.date):
-        if isinstance(new_deadline, datetime.date) and new_deadline >= self.created:
+        if isinstance(new_deadline, datetime.date) and new_deadline >= self._created:
             self._deadline = new_deadline
             self._modify()
         elif not new_deadline:
@@ -53,5 +54,8 @@ class Task:
         else:
             raise AttributeError('Invalid task.')
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Date created: {self.created}\nDate modified: {self.modified}\nDeadline: {self.deadline}\nTask: {self.task}"
+
+    def __repr__(self) -> list:
+        return [self.created, self.modified, self.deadline, self.task]
