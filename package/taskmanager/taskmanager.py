@@ -17,7 +17,7 @@ class TaskManager:
 
     def print(self):
         for task in self.tasks:
-            print(f'{self.tasks.index(task) + 1}.\n{task}')
+            yield f'---{self.tasks.index(task) + 1}---\n{task}'
 
     def edit_task(self, index, new_deadline=None, new_task: str = 'None'):
         if new_deadline:

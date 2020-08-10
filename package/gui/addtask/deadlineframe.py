@@ -9,9 +9,7 @@ class DeadlineFrame(tk.Frame):
 
         self.day_var = tk.IntVar()
         self.month_var = tk.IntVar()
-        self.month_var.trace("w", self._date_check)
         self.year_var = tk.IntVar()
-        self.year_var.trace("w", self._date_check)
         self.deadline_var = tk.BooleanVar(value=True)
 
         deadline = tk.Checkbutton(self, text='Deadline',
@@ -20,22 +18,25 @@ class DeadlineFrame(tk.Frame):
 
         self.date_frame = tk.Frame(self)
 
-        today = datetime.date.today()
+        self.today = datetime.date.today()
 
-        self.day_var.set(today.day)
+        self.day_var.set(self.today.day)
         days = [i for i in range(1, 32)]
         self.day = tk.OptionMenu(self.date_frame, self.day_var, *days)
         self.day.grid(row=1, column=1, sticky="WE")
-        self.day_var.trace("w", lambda *args: self.day.config(bg=self.cget("bg")))
+        self.day_var.trace("w",
+                           lambda *args: self.day.config(bg=self.cget("bg")))
 
-        self.month_var.set(today.month)
-        months = [i for i in range(1, 13)]
+        self.month_var.set(self.today.month)
+        months = [i for i in range(self.today.month, 13)]
         self.month = tk.OptionMenu(self.date_frame, self.month_var, *months)
+        self.month_var.trace("w", self._date_check)
         self.month.grid(row=1, column=2, sticky="WE")
 
-        self.year_var.set(today.year)
-        years = [i for i in range(today.year, today.year + 10)]
+        self.year_var.set(self.today.year)
+        years = [i for i in range(self.today.year, self.today.year + 10)]
         self.year = tk.OptionMenu(self.date_frame, self.year_var, *years)
+        self.year_var.trace("w", self._date_check)
         self.year.grid(row=1, column=3, sticky="WE")
 
         self.date_frame.grid_columnconfigure(1, minsize=60)
@@ -51,6 +52,13 @@ class DeadlineFrame(tk.Frame):
         else:
             for slave in self.date_frame.grid_slaves():
                 slave.configure(state=tk.DISABLED)
+
+    @staticmethod
+    def _change_options(optionmenu, new_options, optionmenu_var):
+        optionmenu["menu"].delete(0, "end")
+        for option in new_options:
+            optionmenu["menu"].add_command(label=option,
+                                           command=tk._setit(optionmenu_var, option))
 
     def _date_check(self, *args):
         is_leap_year = False
@@ -72,8 +80,19 @@ class DeadlineFrame(tk.Frame):
 
         if self.day_var.get() not in new_days:
             self.day.config(bg="red")
+        else:
+            self.day.config(bg=self.cget("bg"))
 
-        self.day["menu"].delete(0, "end")
-        for day in new_days:
-            self.day["menu"].add_command(label=day,
-                                         command=tk._setit(self.day_var, day))
+        self._change_options(self.day, new_days, self.day_var)
+
+        if selected_year == self.today.year:
+            if selected_month < self.today.month:
+                self.month.config(bg="red")
+            else:
+                self.month.config(bg=self.cget("bg"))
+            new_months = [i for i in range(self.today.month, 13)]
+            self._change_options(self.month, new_months, self.month_var)
+        else:
+            self.month.config(bg=self.cget("bg"))
+            new_months = [i for i in range(1, 13)]
+            self._change_options(self.month, new_months, self.month_var)

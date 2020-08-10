@@ -11,8 +11,8 @@ class TaskListFrame(tk.LabelFrame):
         self.tasks = []
 
         if len(self.manager.tasks) >= 1:
-            for task in self.manager.tasks:
-                task_frame = tk.Frame(self)
+            for task in self.manager.print():
+                task_frame = self.task_frame(task)
                 self.tasks.append(task)
                 task_frame.pack()
         else:
@@ -20,3 +20,9 @@ class TaskListFrame(tk.LabelFrame):
             label.pack()
 
         self.pack(padx=5, pady=5, expand=True, fill="both")
+
+    def task_frame(self, task):
+        task_frame = tk.Frame(self)
+        task_label = tk.Label(task_frame, text=task)
+        task_label.pack()
+        return task_frame
