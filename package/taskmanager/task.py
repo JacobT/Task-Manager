@@ -34,7 +34,7 @@ class Task:
 
     @deadline.setter
     def deadline(self, new_deadline: datetime.date):
-        if isinstance(new_deadline, datetime.date) and new_deadline >= self._created:
+        if isinstance(new_deadline, datetime.date) and new_deadline >= datetime.date.today():
             self._deadline = new_deadline
             self._modify()
         elif not new_deadline:

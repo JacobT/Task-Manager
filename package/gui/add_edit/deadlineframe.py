@@ -4,8 +4,10 @@ import datetime
 
 class DeadlineFrame(tk.Frame):
 
-    def __init__(self, parent):
+    def __init__(self, parent, warning_var):
         super().__init__(parent)
+
+        self.warning_var = warning_var
 
         self.day_var = tk.IntVar()
         self.month_var = tk.IntVar()
@@ -13,10 +15,12 @@ class DeadlineFrame(tk.Frame):
         self.deadline_var = tk.BooleanVar(value=True)
 
         deadline = tk.Checkbutton(self, text='Deadline',
-                                  variable=self.deadline_var, command=self._dl_check)
+                                  variable=self.deadline_var,
+                                  command=self._dl_check)
         deadline.pack()
 
         self.date_frame = tk.Frame(self)
+        self.date_frame.pack()
 
         self.today = datetime.date.today()
 
@@ -42,8 +46,6 @@ class DeadlineFrame(tk.Frame):
         self.date_frame.grid_columnconfigure(1, minsize=60)
         self.date_frame.grid_columnconfigure(2, minsize=60)
         self.date_frame.grid_columnconfigure(3, minsize=70)
-
-        self.date_frame.pack()
 
     def _dl_check(self):
         if self.deadline_var.get():
