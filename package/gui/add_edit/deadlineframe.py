@@ -9,39 +9,45 @@ class DeadlineFrame(tk.Frame):
 
         self.warning_var = warning_var
 
-        self.day_var = tk.IntVar()
-        self.month_var = tk.IntVar()
-        self.year_var = tk.IntVar()
+        # vytvoření deadline checkbuttonu
         self.deadline_var = tk.BooleanVar(value=True)
-
         deadline = tk.Checkbutton(self, text='Deadline',
                                   variable=self.deadline_var,
                                   command=self._dl_check)
         deadline.pack()
 
+        # frame pro optionmenu data
         self.date_frame = tk.Frame(self)
         self.date_frame.pack()
 
         self.today = datetime.date.today()
 
-        self.day_var.set(self.today.day)
-        days = [i for i in range(1, 32)]
+        # optionmenu určující den
+        self.day_var = tk.IntVar()
+        days = [i for i in range(self.today.day, 32)]
         self.day = tk.OptionMenu(self.date_frame, self.day_var, *days)
         self.day.grid(row=1, column=1, sticky="WE")
         self.day_var.trace("w",
                            lambda *args: self.day.config(bg=self.cget("bg")))
 
-        self.month_var.set(self.today.month)
+        # optionmenu určující měsíc
+        self.month_var = tk.IntVar()
         months = [i for i in range(self.today.month, 13)]
         self.month = tk.OptionMenu(self.date_frame, self.month_var, *months)
-        self.month_var.trace("w", self._date_check)
         self.month.grid(row=1, column=2, sticky="WE")
+        self.month_var.trace("w", self._date_check)
 
-        self.year_var.set(self.today.year)
+        # optionmenu určující rok
+        self.year_var = tk.IntVar()
         years = [i for i in range(self.today.year, self.today.year + 10)]
         self.year = tk.OptionMenu(self.date_frame, self.year_var, *years)
-        self.year_var.trace("w", self._date_check)
         self.year.grid(row=1, column=3, sticky="WE")
+        self.year_var.trace("w", self._date_check)
+
+        # výchozí hodnoty (aktuální datum)
+        self.day_var.set(self.today.day)
+        self.month_var.set(self.today.month)
+        self.year_var.set(self.today.year)
 
         self.date_frame.grid_columnconfigure(1, minsize=60)
         self.date_frame.grid_columnconfigure(2, minsize=60)
@@ -78,7 +84,12 @@ class DeadlineFrame(tk.Frame):
         else:
             days_max = 30
 
-        new_days = [i for i in range(1, days_max + 1)]
+        if selected_month == self.today.month and selected_year == self.today.year:
+            days_min = self.today.day
+        else:
+            days_min = 1
+
+        new_days = [i for i in range(days_min, days_max + 1)]
 
         if self.day_var.get() not in new_days:
             self.day.config(bg="red")

@@ -1,3 +1,4 @@
+from package.taskmanager.task import Task
 import tkinter as tk
 from .taskframe import TaskFrame
 from .deadlineframe import DeadlineFrame
@@ -59,9 +60,14 @@ class AddTaskWindow(tk.Toplevel):
         year = self.deadline_frame.year_var.get()
         task = self.task_frame.task.get(1.0, "end").strip()
         try:
-            if day != None and self.deadline_frame.deadline_var.get():
-                self.manager.new_task(day, month, year, task)
-            else:
-                self.manager.new_task(task=task)
+            self._confirm_func(day, month, year, task)
         except Exception as e:
             self.warning_var.set(e)
+        self.event_generate("<<update_list>>")
+        self.destroy()
+
+    def _confirm_func(self, day, month, year, task):
+        if self.deadline_frame.deadline_var.get():
+            self.manager.new_task(day, month, year, task)
+        else:
+            self.manager.new_task(task=task)

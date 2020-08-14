@@ -1,13 +1,14 @@
 import tkinter as tk
 from ..add_edit.addtaskwindow import AddTaskWindow
-from ..tasklist.tasklistframe import TaskListFrame
+from .tasklistframe import TaskListFrame
 
 
 class MainWindow(tk.Tk):
 
     def __init__(self, manager):
         super().__init__()
-        self.title('Task Manager')
+        self.title("Task Manager")
+        self.geometry("500x700")
         self.manager = manager
 
         self.main_menu = tk.Menu(self)
@@ -18,10 +19,7 @@ class MainWindow(tk.Tk):
         self.config(menu=self.main_menu)
 
         self.task_list = TaskListFrame(self, self.manager)
-        self.task_list.pack()
+        self.task_list.pack(expand=True, fill="both")
 
     def add_task(self):
-        try:
-            AddTaskWindow(self.manager)
-        finally:
-            self.task_list.update_list()
+        AddTaskWindow(self.manager)

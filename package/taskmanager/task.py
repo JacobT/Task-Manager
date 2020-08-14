@@ -5,9 +5,9 @@ class Task:
 
     def __init__(self, deadline: datetime.date = None, task: str = 'None'):
         self.created = datetime.date.today()
-        self._modified = datetime.datetime.now()
         self.deadline = deadline
         self.task = task
+        self._modify()
 
     @property
     def created(self):

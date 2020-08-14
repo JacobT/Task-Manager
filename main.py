@@ -1,4 +1,3 @@
-import tkinter as tk
 from package.taskmanager.taskmanager import TaskManager
 from package.gui.mainwindow.mainwindow import MainWindow
 
@@ -12,3 +11,5 @@ manager.new_task(task="Neco")
 
 
 root.mainloop()
+
+# edit
