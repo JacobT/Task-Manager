@@ -3,6 +3,7 @@ import datetime
 
 
 class DeadlineFrame(tk.Frame):
+    '''Frame s výběrem data pro deadline.'''
 
     def __init__(self, parent, warning_var):
         super().__init__(parent)

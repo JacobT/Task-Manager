@@ -1,10 +1,10 @@
-from package.taskmanager.task import Task
 import tkinter as tk
-from .taskframe import TaskFrame
-from .deadlineframe import DeadlineFrame
+from . import taskframe
+from . import deadlineframe
 
 
 class AddTaskWindow(tk.Toplevel):
+    '''Okno pro vytvoření nového úkolu.'''
 
     def __init__(self, manager):
         super().__init__()
@@ -38,11 +38,12 @@ class AddTaskWindow(tk.Toplevel):
         self.warning_label.grid(row=3, column=1, columnspan=3)
 
         # checkbutton a optionmenu pro určení deadline
-        self.deadline_frame = DeadlineFrame(self.main_frame, self.warning_var)
+        self.deadline_frame = deadlineframe.DeadlineFrame(
+            self.main_frame, self.warning_var)
         self.deadline_frame.grid(row=1, column=1, pady=5, sticky="nswe")
 
         # textové pole úkolu
-        self.task_frame = TaskFrame(self.main_frame)
+        self.task_frame = taskframe.TaskFrame(self.main_frame)
         self.task_frame.grid(row=1, column=2, rowspan=2,
                              padx=10, pady=5,
                              sticky="nswe")
@@ -53,6 +54,8 @@ class AddTaskWindow(tk.Toplevel):
         self.grid_rowconfigure(4, weight=1)
 
     def confirm_click(self):
+        '''Funkce potvrzovacího tlačítka.'''
+
         self.warning_var.set("")
 
         day = self.deadline_frame.day_var.get()
@@ -61,13 +64,13 @@ class AddTaskWindow(tk.Toplevel):
         task = self.task_frame.task.get(1.0, "end").strip()
         try:
             self._confirm_func(day, month, year, task)
+            self.event_generate("<<update_task_list>>")
+            self.destroy()
         except Exception as e:
             self.warning_var.set(e)
-        self.event_generate("<<update_list>>")
-        self.destroy()
 
     def _confirm_func(self, day, month, year, task):
         if self.deadline_frame.deadline_var.get():
-            self.manager.new_task(day, month, year, task)
+            self.manager.new_task(day=day, month=month, year=year, task=task)
         else:
             self.manager.new_task(task=task)

@@ -2,6 +2,7 @@ import tkinter as tk
 
 
 class TaskFrame(tk.Frame):
+    '''Frame textového pole pro popis úkolu.'''
 
     def __init__(self, parent):
         super().__init__(parent, bd=2, relief=tk.SUNKEN)

@@ -1,15 +1,8 @@
-from package.taskmanager.taskmanager import TaskManager
-from package.gui.mainwindow.mainwindow import MainWindow
+from package.taskmanager import taskmanager
+from package.gui.mainwindow import mainwindow
 
 
-manager = TaskManager()
-root = MainWindow(manager)
-
-manager.new_task(11, 11, 2020, task="Neco")
-manager.new_task(1, 2, 2022, task="Neco")
-manager.new_task(task="Neco")
-
+manager = taskmanager.TaskManager()
+root = mainwindow.MainWindow(manager)
 
 root.mainloop()
-
-# edit
