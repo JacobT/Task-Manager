@@ -1,10 +1,6 @@
-## Task-Manager
-
----
+# Task-Manager
 
 _Učební projekt určený k osvojení konceptu OOP, práci s databází a další._
-
----
 
 Aplikace má sloužit k organizaci zadaných úkolů/projektů, např. pracovních.
 
