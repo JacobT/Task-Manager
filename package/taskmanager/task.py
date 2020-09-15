@@ -5,7 +5,7 @@ class Task:
     '''
     Třída úkolu pro Task Manager.
 
-    Atributy:
+    Attributes:
 
         created : date | None (Read-only) -> str
             datum vytvoření úkolu

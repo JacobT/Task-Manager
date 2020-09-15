@@ -6,9 +6,9 @@ class TaskManager:
     '''
     Třída pro vytváření, změnu a vymazání úkolů.
 
-    Atribut:
+    Attributes:
 
-    task : list
+    tasks : list
         seznam všech vytvořených pkolů
     '''
 
@@ -74,7 +74,7 @@ class TaskManager:
         '''
         Změní již vytvořený úkol.
 
-        Parametr:
+        Parameters:
             manager_index : int
                 index úkolu v seznamu úkolů manageru (self.tasks)
 
@@ -108,8 +108,7 @@ class TaskManager:
         elif deadline == False:
             self.tasks[manager_index].deadline = None
 
-        if new_task:
-            self.tasks[manager_index].task = new_task
+        self.tasks[manager_index].task = new_task
 
     def delete_task(self, manager_index):
         '''

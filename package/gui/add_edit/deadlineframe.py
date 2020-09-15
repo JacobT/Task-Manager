@@ -11,11 +11,11 @@ class DeadlineFrame(tk.Frame):
         self.warning_var = warning_var
 
         # vytvoření deadline checkbuttonu
-        self.deadline_var = tk.BooleanVar(value=True)
+        self.deadline_var = tk.BooleanVar()
         deadline = tk.Checkbutton(self, text='Deadline',
-                                  variable=self.deadline_var,
-                                  command=self._dl_check)
+                                  variable=self.deadline_var)
         deadline.pack()
+        self.deadline_var.trace("w", self._dl_check)
 
         # frame pro optionmenu data
         self.date_frame = tk.Frame(self)
@@ -49,12 +49,13 @@ class DeadlineFrame(tk.Frame):
         self.day_var.set(self.today.day)
         self.month_var.set(self.today.month)
         self.year_var.set(self.today.year)
+        self.deadline_var.set(False)
 
         self.date_frame.grid_columnconfigure(1, minsize=60)
         self.date_frame.grid_columnconfigure(2, minsize=60)
         self.date_frame.grid_columnconfigure(3, minsize=70)
 
-    def _dl_check(self):
+    def _dl_check(self, *args):
         if self.deadline_var.get():
             for slave in self.date_frame.grid_slaves():
                 slave.configure(state=tk.NORMAL)

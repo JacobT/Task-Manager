@@ -38,8 +38,8 @@ class AddTaskWindow(tk.Toplevel):
         self.warning_label.grid(row=3, column=1, columnspan=3)
 
         # checkbutton a optionmenu pro určení deadline
-        self.deadline_frame = deadlineframe.DeadlineFrame(
-            self.main_frame, self.warning_var)
+        self.deadline_frame = deadlineframe.DeadlineFrame(self.main_frame,
+                                                          self.warning_var)
         self.deadline_frame.grid(row=1, column=1, pady=5, sticky="nswe")
 
         # textové pole úkolu

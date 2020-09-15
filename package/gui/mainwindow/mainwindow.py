@@ -9,7 +9,7 @@ class MainWindow(tk.Tk):
     def __init__(self, manager):
         super().__init__()
         self.title("Task Manager")
-        self.geometry("500x700")
+        self.geometry("700x500")
 
         self.manager = manager
         self.tasks = []
@@ -40,8 +40,8 @@ class MainWindow(tk.Tk):
         manager_tasks = self.manager.get_tasks()
         if manager_tasks:
             for task in manager_tasks:
-                task_frame = taskdisplayframe.TaskFrame(self.task_list, task,
-                                                        **manager_tasks[task])
+                task_frame = taskdisplayframe.TaskFrame(self.task_list, self.manager,
+                                                        task, **manager_tasks[task])
                 task_frame.pack()
                 self.tasks.append(task_frame)
         else:
