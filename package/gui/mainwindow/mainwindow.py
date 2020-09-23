@@ -39,9 +39,9 @@ class MainWindow(tk.Tk):
 
         manager_tasks = self.manager.get_tasks()
         if manager_tasks:
-            for task in manager_tasks:
+            for id in manager_tasks:
                 task_frame = taskdisplayframe.TaskFrame(self.task_list, self.manager,
-                                                        task, **manager_tasks[task])
+                                                        id, **manager_tasks[id])
                 task_frame.pack()
                 self.tasks.append(task_frame)
         else:
