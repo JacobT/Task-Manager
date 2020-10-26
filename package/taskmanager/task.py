@@ -20,11 +20,32 @@ class Task:
             datum a čas poslední změny
     '''
 
-    def __init__(self, deadline: datetime.date = None, task: str = "None"):
-        self.created = datetime.date.today()
+    def __init__(self, deadline: datetime.date = None, task: str = "None", creation_date: datetime.date = None, modified: datetime.datetime = None, id: int = None):
+        if id and isinstance(id, int):
+            self.id = id
+
+        if creation_date and isinstance(creation_date, datetime.date):
+            self.created = creation_date
+        else:
+            self.created = datetime.date.today()
+
         self.deadline = deadline
         self.task = task
-        self._modify()
+
+        if modified and isinstance(modified, datetime.datetime):
+            self._modified = modified
+
+    @property
+    def id(self):
+        if hasattr(self, "_id"):
+            return self._id
+
+    @id.setter
+    def id(self, id: int):
+        if not hasattr(self, "_id") or self._id == None:
+            self._id = id
+        else:
+            raise AttributeError("ID cannot be changed.")
 
     @property
     def created(self):
@@ -73,10 +94,7 @@ class Task:
         else:
             raise AttributeError("Invalid task.")
 
-    def __str__(self) -> str:
-        return f"Date created: {self.created}\nDate modified: {self.modified}\nDeadline: {self.deadline}\nTask: {self.task}"
-
-    def __repr__(self) -> dict:
+    def get_dict(self) -> dict:
         '''
         Navrací slovník úkolu:
             "created" : str
@@ -96,3 +114,12 @@ class Task:
                 "modified": self.modified,
                 "deadline": self.deadline,
                 "task": self.task}
+
+    def to_db(self):
+        if self.id:
+            return [self._created, self._modified, self._deadline, self.task, self.id]
+        else:
+            return [self._created, self._modified, self._deadline, self.task]
+
+    def __str__(self) -> str:
+        return f"Date created: {self.created}\nDate modified: {self.modified}\nDeadline: {self.deadline}\nTask: {self.task}"

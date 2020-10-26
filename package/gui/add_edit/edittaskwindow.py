@@ -3,12 +3,12 @@ from . import addtaskwindow
 
 class EditTaskWindow(addtaskwindow.AddTaskWindow):
 
-    def __init__(self, manager, manager_index, deadline, task):
+    def __init__(self, manager, id, deadline, task):
         super().__init__(manager)
 
         self.title("Edit Task")
 
-        self.manager_index = manager_index
+        self.id = id
 
         if deadline != "None":
             dl_day, dl_month, dl_year = deadline.split(".")
@@ -23,8 +23,8 @@ class EditTaskWindow(addtaskwindow.AddTaskWindow):
     def _confirm_func(self, day, month, year, task):
         deadline = self.deadline_frame.deadline_var.get()
         if deadline:
-            self.manager.edit_task(manager_index=self.manager_index, day=day, month=month,
+            self.manager.edit_task(id=self.id, day=day, month=month,
                                    year=year, task=task, deadline=deadline)
         else:
-            self.manager.edit_task(manager_index=self.manager_index,
+            self.manager.edit_task(id=self.id,
                                    task=task, deadline=deadline)

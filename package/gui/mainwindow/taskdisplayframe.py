@@ -5,7 +5,7 @@ import tkinter as tk
 class TaskFrame(tk.Frame):
     '''Frame pro zobrazení úkolu.'''
 
-    def __init__(self, parent, manager, index, created, modified, deadline, task):
+    def __init__(self, parent, manager, id, created, modified, deadline, task):
         super().__init__(parent)
 
         self.manager = manager
@@ -19,7 +19,7 @@ class TaskFrame(tk.Frame):
         self.modified.set(modified)
         self.deadline.set(deadline)
         self.task.set(task)
-        self.manager_index = index
+        self.id = id
 
         self._task_frame()
 
@@ -55,9 +55,9 @@ class TaskFrame(tk.Frame):
         self.grid_columnconfigure(10, weight=1)
 
     def _edit_task(self):
-        edittaskwindow.EditTaskWindow(self.manager, self.manager_index,
+        edittaskwindow.EditTaskWindow(self.manager, self.id,
                                       self.deadline.get(), self.task.get())
 
     def _destroy_task(self):
-        self.manager.delete_task(self.manager_index)
+        self.manager.delete_task(self.id)
         self.event_generate("<<update_task_list>>")
