@@ -1,5 +1,4 @@
 import datetime
-from sqlite3.dbapi2 import connect
 from . import task
 import sqlite3
 
